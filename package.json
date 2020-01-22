@@ -1,0 +1,16 @@
+{
+  "name": "mvl-db-bot-controller",
+  "version": "0.0.1",
+  "description": "",
+  "main": "src/botcontroller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "botcms": "git+https://github.com/mvoevodskiy/BotCMS.git",
+    "sequelize": "^5.21.3"
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
+}
