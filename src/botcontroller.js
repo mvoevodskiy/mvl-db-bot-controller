@@ -124,6 +124,17 @@ class BotToDBController {
         }
     };
 
+    enableDisable_act = async (ctx) => {
+        let q = this.MT.extract(this.config.path.answers_selected, ctx.session);
+        let criteria = {where: {name: q}};
+        let contractor = await this.Model.findOne(criteria);
+        // contractor.get()
+        if (!this.MT.empty(contractor)) {
+            contractor.active = !contractor.active;
+            contractor.save();
+        }
+    };
+
     prepareViewData = async (object, ctx) => object;
 
     btns = (ctx) => {
