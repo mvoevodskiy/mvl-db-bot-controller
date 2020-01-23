@@ -137,14 +137,6 @@ class BotToDBController {
 
     prepareViewData = async (object, ctx) => object;
 
-    btns = (ctx) => {
-        let parcel = this.newParcel();
-        parcel.message = 'Кнопки';
-        let kb = new Keyboard(ctx);
-        parcel.keyboard = kb.addBtnMenuMain().addBtnBack().build();
-        ctx.reply(parcel);
-    };
-
     newParcel = () => new this.Bot.config.classes.Parcel();
 
 }
