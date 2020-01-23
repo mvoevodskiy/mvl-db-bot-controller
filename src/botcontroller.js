@@ -22,7 +22,7 @@ class BotToDBController {
             manage_object: 'manage_object',
         },
         lexicons: {
-            choose_from_list: 'common.msg.choose_from_list',
+            choose_from_list: 'common.msg.action.choose_from_list',
             details: 'common.msg.details',
         },
         path: {
@@ -92,18 +92,17 @@ class BotToDBController {
     add_act = async (ctx) => {
         let contractor = {};
         let answers = this.MT.extract(this.config.path.answers_add, ctx.session);
-        console.log(answers);
         for (let key in answers) {
             if (answers.hasOwnProperty(key)) {
                 contractor[key] = answers[key].answer;
             }
         }
         this.Model.create(contractor)
-            .then(created => {
+            .then(async created => {
                 console.log(created);
                 if (!this.MT.empty(created)) {
                     let parcel = this.newParcel();
-                    parcel.message = ctx.lexicon(this.config.lexicons.details, created.get());
+                    parcel.message = ctx.lexicon(this.config.lexicons.details, await this.prepareViewData(created.get(), ctx));
                     ctx.reply(parcel);
                     let step = ctx.BC.Scripts.extract(this.config.path.manage);
                     return ctx.BC.doUpdate(step, ctx);
@@ -119,11 +118,13 @@ class BotToDBController {
         if (!this.MT.empty(contractor)) {
             let kb = new Keyboard(ctx);
             let parcel = this.newParcel();
-            parcel.message = ctx.lexicon(this.config.lexicons.details, contractor.get());
+            parcel.message = ctx.lexicon(this.config.lexicons.details, await this.prepareViewData(contractor.get(), ctx));
             parcel.keyboard = kb.fromKBObject(ctx.BC.keyboards[this.config.keyboards.manage_object] || {}).build();
             ctx.reply(parcel);
         }
     };
+
+    prepareViewData = async (object, ctx) => object;
 
     btns = (ctx) => {
         let parcel = this.newParcel();
