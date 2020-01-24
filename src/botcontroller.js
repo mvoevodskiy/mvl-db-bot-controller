@@ -60,7 +60,11 @@ class BotToDBController extends MVLoaderBase {
         // console.log('MVLBA MESSAGE: ' + ctx.msg);
         // console.log('MVLBA CRITERIA: ', criteria);
         // console.log();
-        let criteria = {where: {name: {[Op.like]: '%' + ctx.msg + '%',}}};
+        let criteria = {
+            where: {},
+            limit: 12,
+        };
+        criteria.where[this.config.fields.singleButton] = {[Op.like]: '%' + ctx.msg + '%',};
         return this.Model.count(this.prepareGetCriteria(criteria))
             .then(count => count > 0);
     };
@@ -108,7 +112,8 @@ class BotToDBController extends MVLoaderBase {
 
     singleManageActions_act = async (ctx) => {
         let q = this.MT.extract(this.config.path.answers_selected, ctx.session);
-        let criteria = {where: {name: q}};
+        let criteria = {where: {}};
+        criteria.where[this.config.fields.singleButton] = q;
         let contractor = await this.Model.findOne(this.prepareGetCriteria(criteria));
         // contractor.get()
         if (!this.MT.empty(contractor)) {
@@ -122,7 +127,8 @@ class BotToDBController extends MVLoaderBase {
 
     enableDisable_act = async (ctx) => {
         let q = this.MT.extract(this.config.path.answers_selected, ctx.session);
-        let criteria = {where: {name: q}};
+        let criteria = {where: {}};
+        criteria.where[this.config.fields.singleButton] = q;
         let contractor = await this.Model.findOne(this.prepareGetCriteria(criteria));
         // contractor.get()
         if (!this.MT.empty(contractor)) {
@@ -131,11 +137,17 @@ class BotToDBController extends MVLoaderBase {
         }
     };
 
-    prepareViewData = async (object, ctx) => object;
+    async prepareViewData (object, ctx) {
+        return object;
+    }
 
-    prepareGetCriteria = criteria => criteria;
+    prepareGetCriteria (criteria) {
+        return criteria;
+    }
 
-    setDefaultKeys = object => object;
+    setDefaultKeys (object) {
+        return object;
+    }
 
     newParcel = () => new this.Bot.config.classes.Parcel();
 
