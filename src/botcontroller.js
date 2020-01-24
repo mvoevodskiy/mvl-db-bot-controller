@@ -46,7 +46,7 @@ class BotToDBController extends MVLoaderBase {
         this.Model = this.DB.models[this.modelName];
     }
 
-    getAll = (ctx) => {
+    getAll_act = (ctx) => {
         this.Model.findAll(this.prepareGetCriteria({}))
             .then(contractors => {
                 let kb = new Keyboard(ctx);
