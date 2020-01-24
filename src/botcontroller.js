@@ -49,9 +49,13 @@ class BotToDBController extends MVLoaderBase {
     getAll = (ctx) => {
         this.Model.findAll(this.prepareGetCriteria({}))
             .then(contractors => {
+                let kb = new Keyboard(ctx);
+                for (let contractor of contractors) {
+                    kb.addBtn(contractor[this.config.fields.singleButton]);
+                }
                 let parcel = this.newParcel();
-                parcel.message = JSON.stringify(contractors, null, 4);
-                parcel.keyboard = (new Keyboard(ctx)).addBtnMenuMain().addBtnBack().build();
+                parcel.message = ctx.lexicon(this.config.lexicons.choose_from_list);
+                parcel.keyboard = kb.addBtnMenuManage().addBtnMenuMain().build();
                 ctx.reply(parcel);
             });
     };
