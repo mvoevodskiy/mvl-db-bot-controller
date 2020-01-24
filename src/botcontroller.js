@@ -47,7 +47,7 @@ class BotToDBController extends MVLoaderBase {
     }
 
     getAll = (ctx) => {
-        this.Model.findAll()
+        this.Model.findAll(this.prepareGetCriteria({}))
             .then(contractors => {
                 let parcel = this.newParcel();
                 parcel.message = JSON.stringify(contractors, null, 4);
@@ -61,7 +61,7 @@ class BotToDBController extends MVLoaderBase {
         // console.log('MVLBA CRITERIA: ', criteria);
         // console.log();
         let criteria = {where: {name: {[Op.like]: '%' + ctx.msg + '%',}}};
-        return this.Model.count(criteria)
+        return this.Model.count(this.prepareGetCriteria(criteria))
             .then(count => count > 0);
     };
 
@@ -72,7 +72,7 @@ class BotToDBController extends MVLoaderBase {
             limit: 12,
         };
         criteria.where[this.config.fields.singleButton] = {[Op.like]: '%' + ctx.msg + '%',};
-        return this.Model.findAll(criteria)
+        return this.Model.findAll(this.prepareGetCriteria(criteria))
             .then(contractors => {
                 let kb = new Keyboard(ctx);
                 for (let contractor of contractors) {
@@ -86,7 +86,7 @@ class BotToDBController extends MVLoaderBase {
     };
 
     add_act = async (ctx) => {
-        let contractor = {};
+        let contractor = this.setDefaultKeys({});
         let answers = this.MT.extract(this.config.path.answers_add, ctx.session);
         for (let key in answers) {
             if (answers.hasOwnProperty(key)) {
@@ -109,7 +109,7 @@ class BotToDBController extends MVLoaderBase {
     singleManageActions_act = async (ctx) => {
         let q = this.MT.extract(this.config.path.answers_selected, ctx.session);
         let criteria = {where: {name: q}};
-        let contractor = await this.Model.findOne(criteria);
+        let contractor = await this.Model.findOne(this.prepareGetCriteria(criteria));
         // contractor.get()
         if (!this.MT.empty(contractor)) {
             let kb = new Keyboard(ctx);
@@ -123,7 +123,7 @@ class BotToDBController extends MVLoaderBase {
     enableDisable_act = async (ctx) => {
         let q = this.MT.extract(this.config.path.answers_selected, ctx.session);
         let criteria = {where: {name: q}};
-        let contractor = await this.Model.findOne(criteria);
+        let contractor = await this.Model.findOne(this.prepareGetCriteria(criteria));
         // contractor.get()
         if (!this.MT.empty(contractor)) {
             contractor.active = !contractor.active;
@@ -132,6 +132,10 @@ class BotToDBController extends MVLoaderBase {
     };
 
     prepareViewData = async (object, ctx) => object;
+
+    prepareGetCriteria = criteria => criteria;
+
+    setDefaultKeys = object => object;
 
     newParcel = () => new this.Bot.config.classes.Parcel();
 
