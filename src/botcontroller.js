@@ -1,3 +1,4 @@
+const MVLoaderBase = require('mvloader/src/mvloaderbase');
 const Keyboard = require('botcms/lib/keyboard');
 const {Op} = require('sequelize');
 /**
@@ -10,9 +11,8 @@ const {Op} = require('sequelize');
  * @property {Model} Model
  * @property
  */
-class BotToDBController {
+class BotToDBController extends MVLoaderBase {
     caption = '';
-    config = {};
     defaults = {
         BotHandler: 'BotHandler',
         fields: {
@@ -35,13 +35,9 @@ class BotToDBController {
     modelName = '';
 
     constructor (App, config = {}) {
+        super(config);
         this.App = App;
         this.MT = this.App.MT;
-        this.loadConfig(config);
-    }
-
-    loadConfig (config) {
-        this.config = this.MT.mergeRecursive(this.defaults, this.config, config);
     }
 
     initFinish () {
