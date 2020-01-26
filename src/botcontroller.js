@@ -30,6 +30,7 @@ class BotToDBController extends MVLoaderBase {
             answers_add: 'answers.manage_objects_add',
             answers_selected: 'answers.manage_objects.selected.answer',
             manage: 'c.manage',
+            main: 'c.main',
         },
     };
     modelName = '';
