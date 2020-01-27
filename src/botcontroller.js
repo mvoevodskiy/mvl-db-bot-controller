@@ -26,6 +26,7 @@ class BotToDBController extends MVLoaderBase {
             details: 'common.msg.details',
             export_started: 'common.msg.export_started',
             import_started: 'common.msg.import_started',
+            field_caption: field => 'common.fieldNames.' + field,
         },
         path: {
             answers_single_query: 'answers.manage_objects.query.answer',
@@ -34,6 +35,10 @@ class BotToDBController extends MVLoaderBase {
             manage: 'c.manage',
             main: 'c.main',
         },
+    };
+    fields = {
+        equals: [],
+        list: ['id', 'name'],
     };
     modelName = '';
 
@@ -47,6 +52,17 @@ class BotToDBController extends MVLoaderBase {
         this.Bot = this.App.ext.handlers[this.config.BotHandler].Bot;
         this.DB = this.App.DB;
         this.Model = this.DB.models[this.modelName];
+        this.IEC = this.App.ext.controllers.mvlbaImportExportController;
+    }
+
+    fieldsCaptions (ctx) {
+        let captions = {byField: {}, byCaption: {}};
+        for (let field of this.fields.list) {
+            captions.byField[field] = ctx.lexicon(this.config.lexicons.field_caption(field));
+        }
+        captions.byCaption = this.MT.flipObject(captions.byField);
+        // console.log('FIELDS CAPTIONS: ', captions);
+        return captions;
     }
 
     getAll_act = (ctx) => {
@@ -142,6 +158,20 @@ class BotToDBController extends MVLoaderBase {
             contractor.active = !contractor.active;
             contractor.save();
         }
+    };
+
+    export_act = async (ctx, params = {}) => {
+        let parcel = this.newParcel();
+        parcel.message = ctx.lexicon(this.config.lexicons.export_started);
+        ctx.reply(parcel);
+        let filename = await this.IEC.export(this.Model, {}, this.fields, {
+            captions: this.fieldsCaptions(ctx),
+            filename: this.config.exportFilename,
+        });
+        parcel = this.newParcel();
+        parcel.attachments[this.Bot.ATTACHMENTS.FILE] = [{source: filename}];
+        parcel.message = ctx.lexicon(this.config.lexicons.export_finished);
+        ctx.reply(parcel);
     };
 
     async prepareViewData (object, ctx) {
