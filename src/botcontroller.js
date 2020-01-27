@@ -24,6 +24,8 @@ class BotToDBController extends MVLoaderBase {
         lexicons: {
             choose_from_list: 'common.msg.action.choose_from_list',
             details: 'common.msg.details',
+            export_started: 'common.msg.export_started',
+            import_started: 'common.msg.import_started',
         },
         path: {
             answers_single_query: 'answers.manage_objects.query.answer',
