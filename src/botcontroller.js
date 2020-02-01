@@ -120,12 +120,18 @@ class BotToDBController extends MVLoaderBase {
                 contractor[key] = answers[key].answer;
             }
         }
+        if (this.IEC) {
+            contractor = this.MT.merge(contractor, await this.IEC.addIdsFromValues(this.fields.equals, contractor));
+        }
         this.Model.create(contractor)
             .then(async created => {
-                console.log(created);
                 if (!this.MT.empty(created)) {
                     let parcel = this.newParcel();
-                    parcel.message = ctx.lexicon(this.config.lexicons.details, await this.prepareViewData(created.get(), ctx));
+                    let values = created.get();
+                    if (this.IEC) {
+                        values = await this.IEC.addValuesFromIds(this.fields.equals, values);
+                    }
+                    parcel.message = ctx.lexicon(this.config.lexicons.details, await this.prepareViewData(values, ctx));
                     ctx.reply(parcel);
                     let step = ctx.BC.Scripts.extract(this.config.path.manage);
                     return ctx.BC.doUpdate(step, ctx);
