@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "botcms": "git+https://github.com/mvoevodskiy/BotCMS.git",
-    "mvloader": "git+https://github.com/mvoevodskiy/mvloader.git",
+    "botcms": "0.0.3",
+    "mvloader": "0.0.1",
     "sequelize": "^5.21.3"
   },
   "devDependencies": {},
