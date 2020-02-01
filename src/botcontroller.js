@@ -49,6 +49,13 @@ class BotToDBController extends MVLoaderBase {
     }
 
     initFinish () {
+        this.loadConfig({
+            lexicons: {
+                export_finished: this.caption + '.msg.export_finished',
+                import_finished: this.caption + '.msg.import_finished',
+                field_caption: field => this.caption + '.fieldNames.' + field,
+            }
+        });
         this.Bot = this.App.ext.handlers[this.config.BotHandler].Bot;
         this.DB = this.App.DB;
         this.Model = this.DB.models[this.modelName];
