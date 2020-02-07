@@ -105,7 +105,10 @@ class BotToDBController extends MVLoaderBase {
             where: {},
             limit: 12,
         };
-        criteria.where[this.config.fields.singleButton] = {[Op.like]: '%' + ctx.msg + '%',};
+        if (!this.MT.empty(ctx.msg)) {
+            // console.log('LIST ACT. CRITERIA ', criteria);
+            criteria.where[this.config.fields.singleButton] = {[Op.like]: '%' + (ctx.msg || '') + '%',};
+        }
         return this.Model.findAll(this.prepareGetCriteria(criteria))
             .then(contractors => {
                 let kb = new Keyboard(ctx);
@@ -120,7 +123,7 @@ class BotToDBController extends MVLoaderBase {
     };
 
     add_act = async (ctx) => {
-        let contractor = this.setDefaultKeys({});
+        let contractor = this.setDefaultKeys({}, ctx);
         let answers = this.MT.extract(this.config.path.answers_add, ctx.session);
         for (let key in answers) {
             if (answers.hasOwnProperty(key)) {
@@ -195,7 +198,7 @@ class BotToDBController extends MVLoaderBase {
         return criteria;
     }
 
-    setDefaultKeys (object) {
+    setDefaultKeys (object = {}, ctx) {
         return object;
     }
 
