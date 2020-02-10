@@ -99,15 +99,16 @@ class BotToDBController extends MVLoaderBase {
             .then(count => count > 0);
     };
 
-    list_act = (ctx) => {
+    list_act = (ctx, query = null) => {
         let q = this.MT.extract(this.config.path.answers_single_query, ctx.session);
         let criteria = {
             where: {},
             limit: 12,
         };
-        if (!this.MT.empty(ctx.msg)) {
+        query = query !== null ? query : ctx.msg;
+        if (!this.MT.empty(query)) {
             // console.log('LIST ACT. CRITERIA ', criteria);
-            criteria.where[this.config.fields.singleButton] = {[Op.like]: '%' + (ctx.msg || '') + '%',};
+            criteria.where[this.config.fields.singleButton] = {[Op.like]: '%' + (query || '') + '%',};
         }
         return this.Model.findAll(this.prepareGetCriteria(criteria))
             .then(contractors => {
@@ -121,6 +122,8 @@ class BotToDBController extends MVLoaderBase {
                 ctx.reply(parcel);
             });
     };
+
+    listAll_act = async (ctx) => this.list_act(ctx, '');
 
     add_act = async (ctx) => {
         let contractor = this.setDefaultKeys({}, ctx);
