@@ -105,9 +105,8 @@ class BotToDBController extends MVLoaderBase {
             where: {},
             limit: 12,
         };
-        query = query !== null ? query : ctx.msg;
-        if (!this.MT.empty(query)) {
-            // console.log('LIST ACT. CRITERIA ', criteria);
+        query = this.MT.isString(query) ? query : ctx.msg;
+        if (!this.MT.empty(query) && query !== {}) {
             criteria.where[this.config.fields.singleButton] = {[Op.like]: '%' + (query || '') + '%',};
         }
         return this.Model.findAll(this.prepareGetCriteria(criteria))
