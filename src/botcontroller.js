@@ -206,7 +206,7 @@ class BotToDBController extends MVLoaderBase {
 
     getCurrentMvlUser = (ctx) => ctx.singleSession.mvlUser || null;
 
-    newParcel = () => new this.Bot.config.classes.Parcel();
+    newParcel = (content = {}) => new this.Bot.config.classes.Parcel(content);
 
 }
 
