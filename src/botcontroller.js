@@ -32,7 +32,7 @@ class BotToDBController extends MVLoaderBase {
             answers_single_query: 'answers.manage_objects.query.answer',
             answers_add: 'answers.manage_objects_add',
             answers_selected: 'answers.manage_objects.selected.answer',
-            manage: 'c.manage',
+            after_add: 'c.manage',
             main: 'c.main',
         },
     };
@@ -145,7 +145,7 @@ class BotToDBController extends MVLoaderBase {
                     }
                     parcel.message = ctx.lexicon(this.config.lexicons.details, await this.prepareViewData(values, ctx));
                     ctx.reply(parcel);
-                    let step = ctx.BC.Scripts.extract(this.config.path.manage);
+                    let step = ctx.BC.Scripts.extract(this.config.path.after_add);
                     return ctx.BC.doUpdate(step, ctx);
                 }
             });
