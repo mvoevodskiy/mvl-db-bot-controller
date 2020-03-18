@@ -204,6 +204,17 @@ class BotToDBController extends MVLoaderBase {
         return object;
     }
 
+    valuesFromAnswers (ctx, thread) {
+        let values = {};
+        let answers = this.MT.extract(this.config.path.answers_add, ctx.session);
+        for (let key in answers) {
+            if (answers.hasOwnProperty(key)) {
+                values[key] = answers[key].answer;
+            }
+        }
+        return values;
+    }
+
     getCurrentMvlUser = (ctx) => ctx.singleSession.mvlUser || null;
 
     newParcel = (content = {}) => new this.Bot.config.classes.Parcel(content);
