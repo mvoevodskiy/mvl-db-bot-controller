@@ -192,7 +192,7 @@ class BotToDBController extends MVLoaderBase {
         ctx.reply(parcel);
     };
 
-    async prepareViewData (object, ctx) {
+    prepareViewData (object, ctx) {
         return object;
     }
 
