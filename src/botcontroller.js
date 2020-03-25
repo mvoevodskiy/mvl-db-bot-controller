@@ -27,6 +27,7 @@ class BotToDBController extends MVLoaderBase {
             export_started: 'common.msg.export_started',
             import_started: 'common.msg.import_started',
             field_caption: field => 'common.fieldNames.' + field,
+            btn_menu_main: 'common.btn.menu.main',
         },
         path: {
             answers_single_query: 'answers.manage_objects.query.answer',
