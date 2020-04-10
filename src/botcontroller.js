@@ -1,5 +1,4 @@
-const MVLoaderBase = require('mvloader/src/mvloaderbase');
-const Keyboard = require('botcms/lib/keyboard');
+const {MVLoaderBase} = require('mvloader');
 const {Op} = require('sequelize');
 /**
  * @class BotToDBController
@@ -76,7 +75,7 @@ class BotToDBController extends MVLoaderBase {
     getAll_act = (ctx) => {
         this.Model.findAll(this.prepareGetCriteria({}))
             .then(contractors => {
-                let kb = new Keyboard(ctx);
+                let kb = this.newKB(ctx);
                 for (let contractor of contractors) {
                     kb.addBtn(contractor[this.config.fields.singleButton]);
                 }
@@ -112,7 +111,7 @@ class BotToDBController extends MVLoaderBase {
         }
         return this.Model.findAll(this.prepareGetCriteria(criteria))
             .then(contractors => {
-                let kb = new Keyboard(ctx);
+                let kb = this.newKB(ctx);
                 for (let contractor of contractors) {
                     kb.addBtn(contractor[this.config.fields.singleButton]);
                 }
@@ -159,7 +158,7 @@ class BotToDBController extends MVLoaderBase {
         let contractor = await this.Model.findOne(this.prepareGetCriteria(criteria));
         // contractor.get()
         if (!this.MT.empty(contractor)) {
-            let kb = new Keyboard(ctx);
+            let kb = this.newKB(ctx);
             let parcel = this.newParcel();
             parcel.message = ctx.lexicon(this.config.lexicons.details, await this.prepareViewData(contractor.get(), ctx));
             parcel.keyboard = kb.fromKBObject(ctx.BC.keyboards[this.config.keyboards.manage_object] || {}).build();
@@ -219,6 +218,8 @@ class BotToDBController extends MVLoaderBase {
     getCurrentMvlUser = (ctx) => ctx.singleSession.mvlUser || null;
 
     newParcel = (content = {}) => new this.Bot.config.classes.Parcel(content);
+
+    newKB = (ctx, kbObject = {}) => new this.App.ext.handlers.BotHandler.Bot.config.classes.Keyboard(ctx, kbObject);
 
 }
 
