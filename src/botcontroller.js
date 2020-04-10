@@ -12,30 +12,6 @@ const {Op} = require('sequelize');
  */
 class BotToDBController extends MVLoaderBase {
     caption = '';
-    defaults = {
-        BotHandler: 'BotHandler',
-        fields: {
-            singleButton: 'name',
-        },
-        keyboards: {
-            manage_object: 'manage_object',
-        },
-        lexicons: {
-            choose_from_list: 'common.msg.action.choose_from_list',
-            details: 'common.msg.details',
-            export_started: 'common.msg.export_started',
-            import_started: 'common.msg.import_started',
-            field_caption: field => 'common.fieldNames.' + field,
-            btn_menu_main: 'common.btn.menu.main',
-        },
-        path: {
-            answers_single_query: 'answers.manage_objects.query.answer',
-            answers_add: 'answers.manage_objects_add',
-            answers_selected: 'answers.manage_objects.selected.answer',
-            after_add: 'c.manage',
-            main: 'c.main',
-        },
-    };
     fields = {
         equals: [],
         list: ['id', 'name'],
@@ -43,7 +19,31 @@ class BotToDBController extends MVLoaderBase {
     modelName = '';
 
     constructor (App, config = {}) {
-        super(config);
+        let defaults = {
+            BotHandler: 'BotHandler',
+            fields: {
+                singleButton: 'name',
+            },
+            keyboards: {
+                manage_object: 'manage_object',
+            },
+            lexicons: {
+                choose_from_list: 'common.msg.action.choose_from_list',
+                details: 'common.msg.details',
+                export_started: 'common.msg.export_started',
+                import_started: 'common.msg.import_started',
+                field_caption: field => 'common.fieldNames.' + field,
+                btn_menu_main: 'common.btn.menu.main',
+            },
+            path: {
+                answers_single_query: 'answers.manage_objects.query.answer',
+                answers_add: 'answers.manage_objects_add',
+                answers_selected: 'answers.manage_objects.selected.answer',
+                after_add: 'c.manage',
+                main: 'c.main',
+            },
+        };
+        super(defaults, config);
         this.App = App;
         this.MT = this.App.MT;
     }
