@@ -138,6 +138,7 @@ class BotToDBController extends MVLoaderBase {
         this.Model.create(contractor)
             .then(async created => {
                 if (!this.MT.empty(created)) {
+                    created = await this.setAdditionalObjects(created, ctx);
                     let parcel = this.newParcel();
                     let values = created.get();
                     if (this.IEC) {
@@ -201,6 +202,10 @@ class BotToDBController extends MVLoaderBase {
     }
 
     setDefaultKeys (object = {}, ctx) {
+        return object;
+    }
+
+    async setAdditionalObjects (object, ctx) {
         return object;
     }
 
