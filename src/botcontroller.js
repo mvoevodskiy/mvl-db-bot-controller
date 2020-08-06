@@ -18,7 +18,7 @@ class BotToDBController extends MVLoaderBase {
     };
     modelName = '';
 
-    constructor (App, config = {}) {
+    constructor (App, ...configs) {
         let defaults = {
             BotHandler: 'BotHandler',
             fields: {
@@ -43,7 +43,7 @@ class BotToDBController extends MVLoaderBase {
                 main: 'c.main',
             },
         };
-        super(defaults, config);
+        super(defaults, ...configs);
         this.App = App;
         this.MT = this.App.MT;
     }
