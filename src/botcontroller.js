@@ -4,9 +4,9 @@ const {Op} = require('sequelize');
  * @class BotToDBController
  *
  * @property {MVLoader}
- * @property {MVTools}
- * @property {BotCMS} Bot
- * @property {Sequelize} DB
+ * @property {import('mvtools)} MT
+ * @property {import('botcms)} Bot
+ * @property {import('mvl-db-handler').Sequelize} DB
  * @property {Model} Model
  * @property
  */
@@ -224,7 +224,7 @@ class BotToDBController extends MVLoaderBase {
 
     newParcel = (content = {}) => new this.Bot.config.classes.Parcel(content);
 
-    newKB = (ctx, kbObject = {}) => new this.App.ext.handlers.BotHandler.Bot.config.classes.Keyboard(ctx, kbObject);
+    newKB = async (ctx, kbObject = {}) => await (new this.App.ext.handlers.BotHandler.Bot.config.classes.Keyboard(ctx)).fromKBObject(kbObject);
 
 }
 
