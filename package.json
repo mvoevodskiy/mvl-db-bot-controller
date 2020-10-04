@@ -7,11 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "botcms": "^1.0.18",
-    "mvloader": "^1.0.5",
-    "sequelize": "^5.21.5"
+    "mvloader": "^1.0.7",
+    "sequelize": "^5.21.5",
+    "mvl-db-handler": "^1.0.6"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "botcms": "^1.1.0-alpha.2"
+  },
   "author": "",
   "license": "ISC"
 }
