@@ -1,6 +1,6 @@
 {
   "name": "mvl-db-bot-controller",
-  "version": "1.0.7",
+  "version": "1.1.0-alpha.5",
   "description": "",
   "main": "src/botcontroller.js",
   "scripts": {
