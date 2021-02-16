@@ -4,9 +4,9 @@ const {Op} = require('sequelize');
  * @class BotToDBController
  *
  * @property {MVLoader}
- * @property {import('mvtools)} MT
- * @property {import('botcms)} Bot
- * @property {import('mvl-db-handler').Sequelize} DB
+ * @property {Object<import('mvtools)>} MT
+ * @property {Object<import('botcms')>} Bot
+ * @property {Object<import('mvl-db-handler').Sequelize>} DB
  * @property {Model} Model
  * @property
  */
